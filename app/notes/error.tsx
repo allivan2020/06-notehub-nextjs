@@ -1,5 +1,5 @@
-'use client';
+'use client'; // Error components must be Client Components
 
-export default function Error(error) {
-  return <p>Could not fetch the list of notes. {error.message}</p>;
+export default function Error({ error }: { error: Error }) {
+  return <p>Could not fetch note details. {error.message}</p>;
 }

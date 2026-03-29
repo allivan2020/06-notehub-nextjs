@@ -11,13 +11,11 @@ interface Props {
 }
 
 export default async function NoteDetailsPage({ params }: Props) {
-  // Если Next.js ругается, что params — Promise, тогда:
-  // const { id } = await params;
-  // В последних версиях достаточно:
-  const { id } = params;
+  const { id } = await params; // Правильно для Next.js 15
 
   const queryClient = new QueryClient();
 
+  // Попереднє завантаження даних на сервері
   await queryClient.prefetchQuery({
     queryKey: ['note', id],
     queryFn: () => fetchNoteById(id),
@@ -25,6 +23,7 @@ export default async function NoteDetailsPage({ params }: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
+      {/* Передаємо id як пропс, якщо не хочемо юзати useParams всередині */}
       <NoteDetailsClient noteId={id} />
     </HydrationBoundary>
   );

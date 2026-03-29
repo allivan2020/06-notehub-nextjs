@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {
   Note,
-  NoteTag,
   FetchNotesParams,
   FetchNotesResponse,
   CreateNoteParams,
