@@ -8,7 +8,7 @@ import {
   keepPreviousData,
 } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
-import { fetchNotes, deleteNote } from '@/lib/api/notes';
+import { fetchNotes, deleteNote } from '@/lib/api';
 import Pagination from '@/components/Pagination/Pagination';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Modal from '@/components/Modal/Modal';
