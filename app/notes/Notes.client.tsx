@@ -3,12 +3,11 @@
 import { useState } from 'react';
 import {
   useQuery,
-  useMutation,
   useQueryClient,
   keepPreviousData,
 } from '@tanstack/react-query';
 import { useDebouncedCallback } from 'use-debounce';
-import { fetchNotes, deleteNote } from '@/lib/api';
+import { fetchNotes } from '@/lib/api'; // Імпорт із файлу lib/api.ts
 import Pagination from '@/components/Pagination/Pagination';
 import SearchBox from '@/components/SearchBox/SearchBox';
 import Modal from '@/components/Modal/Modal';
@@ -34,13 +33,6 @@ export default function NotesClient() {
     placeholderData: keepPreviousData,
   });
 
-  const mutation = useMutation({
-    mutationFn: deleteNote,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['notes'] });
-    },
-  });
-
   if (isLoading) return <p>Loading, please wait...</p>;
   if (isError) return <p>Something went wrong.</p>;
 
@@ -53,12 +45,11 @@ export default function NotesClient() {
         </button>
       </header>
 
-      {/* Перевірка на наявність нотаток */}
-      {isSuccess && data?.notes && (
-        <NoteList notes={data.notes} onDelete={(id) => mutation.mutate(id)} />
-      )}
+      {/* ВАЖЛИВО: Ментор просив прибрати onDelete з пропсів NoteList.
+        Тепер NoteList сам керує видаленням через useMutation всередині себе.
+      */}
+      {isSuccess && data?.notes && <NoteList notes={data.notes} />}
 
-      {/* Виправлена помилка з totalPages */}
       {isSuccess && data && data.totalPages > 1 && (
         <Pagination
           totalPages={data.totalPages}

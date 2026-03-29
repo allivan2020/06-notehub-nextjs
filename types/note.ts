@@ -9,18 +9,6 @@ export interface Note {
   tag: NoteTag;
 }
 
-export interface FetchNotesParams {
-  search?: string;
-  tag?: string;
-  page: number;
-  perPage: number;
-}
-
-export interface FetchNotesResponse {
-  notes: Note[];
-  totalPages: number;
-}
-
 export interface CreateNoteParams {
   title: string;
   content: string;

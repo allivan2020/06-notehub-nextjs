@@ -1,8 +1,8 @@
-import Paginate from 'react-paginate';
-import css from './Pagination.module.css';
+'use client';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ReactPaginateComponent = (Paginate as any).default || Paginate;
+import React from 'react';
+import ReactPaginate from 'react-paginate'; // Спробуйте прямий імпорт
+import css from './Pagination.module.css';
 
 interface PaginationProps {
   totalPages: number;
@@ -10,24 +10,25 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
 }
 
-export default function Pagination({
+const Pagination: React.FC<PaginationProps> = ({
   totalPages,
   currentPage,
   onPageChange,
-}: PaginationProps) {
+}) => {
   return (
-    <ReactPaginateComponent
+    <ReactPaginate
+      previousLabel={'<'}
+      nextLabel={'>'}
+      breakLabel={'...'}
       pageCount={totalPages}
-      forcePage={currentPage - 1}
-      onPageChange={(event: { selected: number }) =>
-        onPageChange(event.selected + 1)
-      }
+      marginPagesDisplayed={2}
+      pageRangeDisplayed={5}
+      onPageChange={(data) => onPageChange(data.selected + 1)}
       containerClassName={css.pagination}
       activeClassName={css.active}
-      pageLinkClassName={css.link}
-      previousClassName={css.previous}
-      nextClassName={css.next}
-      disabledClassName={css.disabled}
+      forcePage={currentPage - 1}
     />
   );
-}
+};
+
+export default Pagination;
